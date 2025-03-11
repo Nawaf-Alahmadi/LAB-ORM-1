@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
-from .models import Post
+from .models import Post, Category
 
 # Create your views here.
 
@@ -16,10 +16,13 @@ def home_view(request:HttpRequest):
 
 # Create page
 def create_view(request:HttpRequest):
+  all_categories = Category.objects.all()
   if request.method == "POST":
         if request.POST["published_at"] == "" and request.POST["is_published"] == "":
           new_post = Post(title= request.POST['title'], content= request.POST['content'], post = request.FILES['post'])
           new_post.save()
+          new_post.categories.set(request.POST.getlist("categories"))
+          # request.POST['categories']
         elif request.POST["published_at"] == "":
           new_post = Post(title= request.POST['title'], content= request.POST['content'], is_published= request.POST['is_published'], post = request.FILES['post'])
           new_post.save()
@@ -30,11 +33,12 @@ def create_view(request:HttpRequest):
           new_post = Post(title= request.POST['title'], content= request.POST['content'], published_at= request.POST['published_at'], post = request.FILES['post'])
           new_post.save()
         return redirect("main:Home")
-  return render(request, "main/create_post.html")
+  return render(request, "main/create_post.html", {'all_categories':all_categories})
 
 # View 
 def detail_view(request:HttpRequest, post_id):
   post = Post.objects.get(pk = post_id)
+  print(post.categories.name)
   return render(request, "main/details.html", {"post":post})
 
 # Modify

@@ -16,9 +16,11 @@
     <header>
       <div class="container">
         <h2>Blogger</h2>
+        {% url 'main:Home' as home %}
+        {% url 'main:create' as create %}
         <nav>
-          <a href="{% url 'main:Home'%}">Home</a>
-          <a href="{% url 'main:create'%}">Create</a>
+          <a href="{{home}}" class="{% if request.path == home %} active {% endif %}">Home</a>
+          <a href="{{create}}" class="{% if request.path == create %} active {% endif %}">Create</a>
         </nav>
         {% block search %} {% endblock %}
       </div>

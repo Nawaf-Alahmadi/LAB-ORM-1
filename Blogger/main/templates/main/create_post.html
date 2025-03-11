@@ -17,6 +17,13 @@
       <option value="True">Yes</option>
       <option value="False">No</option>
     </select>
+    <label>Categories</label>
+    <select name="categories" multiple>
+      <option value="">Choose</option>
+      {% for category in all_categories %}
+      <option value="{{category.id}}">{{category.name}}</option>
+      {% endfor %}
+    </select>
     <label>Published Date</label>
     <input type="date" name="published_at">
     <input type="file" name="post" required>

@@ -9,6 +9,9 @@
 <section class="detail-sec">
   <div class="container">
     <h1>{{post.title}}</h1>
+    {% for cat in post.categories.all %}
+    <span>{{cat.name}}</span> <br>
+    {% endfor %}
     <div class="box">
       <img src="{{post.post.url}}" alt="Not Found">
       <div class="info">
